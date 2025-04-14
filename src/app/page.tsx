@@ -53,8 +53,7 @@ const Home = () => {
   };
 
   const incomeExpenseData = [
-    { name: 'Income', value: income },
-    { name: 'Expenses', value: expenses },
+    { name: 'Total', income: income, expenses: expenses },
   ];
 
   return (
@@ -78,8 +77,8 @@ const Home = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="value" fill="#82ca9d" name="Income" />
-            <Bar dataKey="value" fill="#FF0000" name="Expense" />
+            <Bar dataKey="income" fill="#82ca9d" name="Income" />
+            <Bar dataKey="expenses" fill="#FF0000" name="Expense" />
           </BarChart>
         </ResponsiveContainer>
       </div>
