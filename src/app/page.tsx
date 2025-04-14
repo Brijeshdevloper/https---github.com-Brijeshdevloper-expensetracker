@@ -46,7 +46,18 @@ const Home = () => {
   }, [transactions, calculateTotals]);
 
   const addTransaction = (newTransaction) => {
-    setTransactions(prevTransactions => [...prevTransactions, newTransaction]);
+    setTransactions(prevTransactions => {
+      const updatedTransactions = [...prevTransactions, newTransaction];
+      return updatedTransactions;
+    });
+
+    if (newTransaction.type === 'income') {
+      setIncome(prevIncome => prevIncome + newTransaction.amount);
+      setBalance(prevBalance => prevBalance + newTransaction.amount);
+    } else if (newTransaction.type === 'expense') {
+      setExpenses(prevExpenses => prevExpenses + newTransaction.amount);
+      setBalance(prevBalance => prevBalance - newTransaction.amount);
+    }
   };
 
   const incomeExpenseData = [
@@ -85,4 +96,3 @@ const Home = () => {
 };
 
 export default Home;
-
