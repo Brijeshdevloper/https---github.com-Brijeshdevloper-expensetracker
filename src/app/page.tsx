@@ -14,6 +14,20 @@ const Home = () => {
   const [expenses, setExpenses] = useState(0);
   const [balance, setBalance] = useState(0);
 
+  const fetchTransactions = useCallback(async () => {
+    try {
+      const response = await fetch('/api/transactions');
+      if (response.ok) {
+        const transactionData = await response.json();
+        setTransactions(transactionData);
+      } else {
+        console.error('Failed to fetch transactions:', response.status);
+      }
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+    }
+  }, []);
+
   const calculateTotals = useCallback(() => {
     let totalIncome = 0;
     let totalExpenses = 0;
@@ -32,15 +46,31 @@ const Home = () => {
   }, [transactions]);
 
   useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
+
+  useEffect(() => {
     calculateTotals();
   }, [transactions, calculateTotals]);
 
-  const addTransaction = (newTransaction) => {
-    setTransactions(prevTransactions => {
-      const updatedTransactions = [...prevTransactions, newTransaction];
-      calculateTotals();
-      return updatedTransactions;
-    });
+  const addTransaction = async (newTransaction) => {
+    try {
+      const response = await fetch('/api/transactions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTransaction),
+      });
+
+      if (response.ok) {
+        fetchTransactions(); // Refresh transactions after adding
+      } else {
+        console.error('Failed to add transaction:', response.status);
+      }
+    } catch (error) {
+      console.error('Error adding transaction:', error);
+    }
   };
 
   const incomeExpenseData = [

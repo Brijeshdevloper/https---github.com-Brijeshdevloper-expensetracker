@@ -10,9 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
 
 // Define a type for the transaction
 type Transaction = {
+  _id: string;
   date: string;
   amount: number;
   category: string;
@@ -21,9 +23,10 @@ type Transaction = {
 
 interface TransactionTableProps {
     transactions: Transaction[];
+    fetchTransactions: () => Promise<void>;
 }
 
-const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => {
+const TransactionTable: React.FC<TransactionTableProps> = ({ transactions, fetchTransactions }) => {
   // Sorting state
   const [sortColumn, setSortColumn] = useState<keyof Transaction | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -53,6 +56,21 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => 
     }
   });
 
+    const handleDelete = async (id: string) => {
+        try {
+            const response = await fetch(`/api/transactions?id=${id}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                fetchTransactions(); // Refresh transactions after deleting
+            } else {
+                console.error('Failed to delete transaction:', response.status);
+            }
+        } catch (error) {
+            console.error('Error deleting transaction:', error);
+        }
+    };
+
   return (
     <Table>
       <TableCaption>A list of your recent transactions.</TableCaption>
@@ -62,6 +80,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => 
           <TableHead onClick={() => handleSort('amount')}>Amount</TableHead>
           <TableHead onClick={() => handleSort('category')}>Category</TableHead>
           <TableHead onClick={() => handleSort('type')}>Type</TableHead>
+          <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -71,6 +90,11 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => 
             <TableCell>{transaction.amount}</TableCell>
             <TableCell>{transaction.category}</TableCell>
             <TableCell>{transaction.type}</TableCell>
+               <TableCell>
+                  <Button onClick={() => handleDelete(transaction._id)} variant="destructive" size="sm">
+                      Delete
+                  </Button>
+              </TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -82,7 +82,7 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({ addTransaction })
           <Label htmlFor="category">Category</Label>
           <Select onValueChange={setCategory}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a category" />
+              <SelectValue placeholder="Select a category" value={category} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="food">Food</SelectItem>
@@ -99,7 +99,7 @@ const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({ addTransaction })
           <Label htmlFor="type">Type</Label>
           <Select onValueChange={setType}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select type" />
+              <SelectValue placeholder="Select type" value={type} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="expense">Expense</SelectItem>
