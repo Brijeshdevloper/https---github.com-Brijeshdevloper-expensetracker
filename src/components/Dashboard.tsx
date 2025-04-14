@@ -16,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import ExpenseChart from '@/components/ExpenseChart';
 
 const Dashboard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
@@ -132,6 +133,7 @@ const Dashboard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <ExpenseDisplay expenses={expenses} />
             <IncomeDisplay income={balance} title="Balance" />
           </div>
+          <ExpenseChart />
           {children}
           <IncomeExpenseForm addTransaction={addTransaction} />
           <TransactionTable transactions={transactions} />
