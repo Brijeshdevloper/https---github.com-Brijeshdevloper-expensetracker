@@ -32,22 +32,13 @@ const Home = () => {
   }, [transactions]);
 
   useEffect(() => {
-    const initialTransactions = [
-      { date: '2024-08-01', amount: 50, category: 'Food', type: 'expense' },
-      { date: '2024-08-02', amount: 100, category: 'Rent', type: 'expense' },
-      { date: '2024-08-03', amount: 2000, category: 'Salary', type: 'income' },
-    ];
-
-    setTransactions(initialTransactions);
-  }, []);
-
-  useEffect(() => {
     calculateTotals();
   }, [transactions, calculateTotals]);
 
   const addTransaction = (newTransaction) => {
     setTransactions(prevTransactions => {
       const updatedTransactions = [...prevTransactions, newTransaction];
+      calculateTotals();
       return updatedTransactions;
     });
   };
