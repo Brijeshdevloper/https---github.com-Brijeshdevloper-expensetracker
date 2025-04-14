@@ -3,28 +3,41 @@
 import { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AEC49F', '#BB8042'];
 
 type Expense = {
   category: string;
   value: number;
 };
 
-const ExpenseChart = () => {
-  const [data, setData] = useState<Expense[]>([
-    { category: 'Food', value: 400 },
-    { category: 'Rent', value: 300 },
-    { category: 'Transport', value: 300 },
-    { category: 'Utilities', value: 200 },
-  ]);
+interface ExpenseChartProps {
+  transactions: { date: string; amount: number; category: string; type: string }[];
+}
+
+const ExpenseChart: React.FC<ExpenseChartProps> = ({ transactions }) => {
+  const [data, setData] = useState<Expense[]>([]);
 
   useEffect(() => {
-    // You can fetch your expense data here and update the state
-    // Example:
-    // fetchData().then(expenses => {
-    //   setData(expenses);
-    // });
-  }, []);
+    // Calculate expenses by category
+    const categoryExpenses: { [key: string]: number } = {};
+    transactions.forEach(transaction => {
+      if (transaction.type === 'expense') {
+        if (categoryExpenses[transaction.category]) {
+          categoryExpenses[transaction.category] += transaction.amount;
+        } else {
+          categoryExpenses[transaction.category] = transaction.amount;
+        }
+      }
+    });
+
+    // Convert categoryExpenses to array format for recharts
+    const chartData: Expense[] = Object.keys(categoryExpenses).map(category => ({
+      category: category,
+      value: categoryExpenses[category]
+    }));
+
+    setData(chartData);
+  }, [transactions]);
 
   return (
     <ResponsiveContainer width="100%" height={300}>

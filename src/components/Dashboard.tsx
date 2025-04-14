@@ -133,7 +133,7 @@ const Dashboard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <ExpenseDisplay expenses={expenses} />
             <IncomeDisplay income={balance} title="Balance" />
           </div>
-          <ExpenseChart />
+          <ExpenseChart transactions={transactions} />
           {children}
           <IncomeExpenseForm addTransaction={addTransaction} />
           <TransactionTable transactions={transactions} />
