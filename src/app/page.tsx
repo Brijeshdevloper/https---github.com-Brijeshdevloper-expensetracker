@@ -60,15 +60,15 @@ const Home = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      
-      <IncomeExpenseForm addTransaction={addTransaction} />
-      <TransactionTable transactions={transactions} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <IncomeDisplay income={income} />
         <ExpenseDisplay expenses={expenses} />
         <IncomeDisplay income={balance} title="Balance" />
       </div>
+      
+      <IncomeExpenseForm addTransaction={addTransaction} />
+      <TransactionTable transactions={transactions} />
 
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-2">Income vs Expenses</h2>
