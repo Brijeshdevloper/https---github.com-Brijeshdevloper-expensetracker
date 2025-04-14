@@ -50,14 +50,6 @@ const Home = () => {
       const updatedTransactions = [...prevTransactions, newTransaction];
       return updatedTransactions;
     });
-
-    if (newTransaction.type === 'income') {
-      setIncome(prevIncome => prevIncome + newTransaction.amount);
-      setBalance(prevBalance => prevBalance + newTransaction.amount);
-    } else if (newTransaction.type === 'expense') {
-      setExpenses(prevExpenses => prevExpenses + newTransaction.amount);
-      setBalance(prevBalance => prevBalance - newTransaction.amount);
-    }
   };
 
   const incomeExpenseData = [
@@ -68,6 +60,10 @@ const Home = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+      
+      <IncomeExpenseForm addTransaction={addTransaction} />
+      <TransactionTable transactions={transactions} />
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <IncomeDisplay income={income} />
         <ExpenseDisplay expenses={expenses} />
@@ -89,8 +85,6 @@ const Home = () => {
       </div>
 
       <ExpenseChart transactions={transactions} />
-      <IncomeExpenseForm addTransaction={addTransaction} />
-      <TransactionTable transactions={transactions} />
     </div>
   );
 };
