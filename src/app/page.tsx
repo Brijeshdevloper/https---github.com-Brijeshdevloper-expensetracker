@@ -6,6 +6,7 @@ import ExpenseDisplay from '@/components/ExpenseDisplay';
 import IncomeExpenseForm from '@/components/IncomeExpenseForm';
 import TransactionTable from '@/components/TransactionTable';
 import ExpenseChart from '@/components/ExpenseChart';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const Home = () => {
   const [transactions, setTransactions] = useState([]);
@@ -48,6 +49,11 @@ const Home = () => {
     setTransactions(prevTransactions => [...prevTransactions, newTransaction]);
   };
 
+  const incomeExpenseData = [
+    { name: 'Income', value: income },
+    { name: 'Expenses', value: expenses },
+  ];
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
@@ -56,6 +62,21 @@ const Home = () => {
         <ExpenseDisplay expenses={expenses} />
         <IncomeDisplay income={balance} title="Balance" />
       </div>
+
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">Income vs Expenses</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={incomeExpenseData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="value" fill="#82ca9d" name="Amount" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
       <ExpenseChart transactions={transactions} />
       <IncomeExpenseForm addTransaction={addTransaction} />
       <TransactionTable transactions={transactions} />

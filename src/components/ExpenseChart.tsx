@@ -33,7 +33,8 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ transactions }) => {
     // Convert categoryExpenses to array format for recharts
     const chartData: Expense[] = Object.keys(categoryExpenses).map(category => ({
       category: category,
-      value: categoryExpenses[category]
+      value: categoryExpenses[category],
+      name: category // Added name property for labels
     }));
 
     setData(chartData);
@@ -50,6 +51,7 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ transactions }) => {
           outerRadius={80}
           fill="#8884d8"
           dataKey="value"
+          nameKey="name" // Specify the nameKey for labels
           label
         >
           {data.map((entry, index) => (
