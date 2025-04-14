@@ -41,43 +41,45 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ transactions }) => {
   }, [transactions]);
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <PieChart width={300} height={300}>
-        <Pie
-          data={data}
-          cx="50%"
-          cy="50%"
-          labelLine={false}
-          outerRadius={80}
-          fill="#8884d8"
-          dataKey="value"
-          nameKey="name" // Specify the nameKey for labels
-          label={({ name, cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-            const RADIAN = Math.PI / 180;
-            const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-            const x = cx + radius * Math.cos(-midAngle * RADIAN);
-            const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-            return (
-              <text
-                x={x}
-                y={y}
-                fill="white"
-                textAnchor={x > cx ? 'start' : 'end'}
-                dominantBaseline="central"
-              >
-                {name} ({percent * 100}%)
-              </text>
-            );
-          }}
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-      </PieChart>
-    </ResponsiveContainer>
+    <div className="mb-8">
+      <h2 className="text-xl font-semibold mb-2">Expenses by Category</h2>
+      <div className="flex items-center">
+        <ResponsiveContainer width="70%" height={300}>
+          <PieChart width={300} height={300}>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              outerRadius={80}
+              fill="#8884d8"
+              dataKey="value"
+              nameKey="name" // Specify the nameKey for labels
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
+        <div className="w-30%">
+          <ul>
+            {data.map((entry, index) => (
+              <li key={index} className="flex items-center mb-2">
+                <div
+                  className="mr-2 w-4 h-4 rounded-full"
+                  style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                ></div>
+                <span>{entry.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 };
 
 export default ExpenseChart;
+
+    
