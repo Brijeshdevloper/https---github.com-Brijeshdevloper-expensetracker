@@ -5,13 +5,14 @@ import { DollarSign } from "lucide-react";
 
 interface IncomeDisplayProps {
   income: number;
+  title?: string;
 }
 
-const IncomeDisplay: React.FC<IncomeDisplayProps> = ({ income }) => {
+const IncomeDisplay: React.FC<IncomeDisplayProps> = ({ income, title }) => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Total Income</CardTitle>
+        <CardTitle className="text-sm font-medium">{title || "Total Income"}</CardTitle>
         <DollarSign className="h-4 w-4 text-gray-500" />
       </CardHeader>
       <CardContent>
@@ -24,3 +25,4 @@ const IncomeDisplay: React.FC<IncomeDisplayProps> = ({ income }) => {
 };
 
 export default IncomeDisplay;
+

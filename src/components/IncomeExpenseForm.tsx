@@ -5,17 +5,46 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useToast } from "@/hooks/use-toast"
 
-const IncomeExpenseForm = () => {
+interface IncomeExpenseFormProps {
+  addTransaction: (transaction: { date: string; amount: number; category: string; type: string }) => void;
+}
+
+const IncomeExpenseForm: React.FC<IncomeExpenseFormProps> = ({ addTransaction }) => {
   const [date, setDate] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [type, setType] = useState('expense'); // 'income' or 'expense'
+  const { toast } = useToast()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted', { date, amount, category, type });
+
+    // Validate amount as a number
+    const amountValue = parseFloat(amount);
+    if (isNaN(amountValue)) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid amount.",
+      })
+      return;
+    }
+
+    const newTransaction = {
+      date,
+      amount: amountValue,
+      category,
+      type,
+    };
+
+    addTransaction(newTransaction);
+
+    toast({
+      title: "Success",
+      description: "Transaction added successfully.",
+    })
+
     // Reset form fields
     setDate('');
     setAmount('');

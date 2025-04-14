@@ -19,14 +19,11 @@ type Transaction = {
   type: string;
 };
 
-const TransactionTable = () => {
-  // Dummy data for transactions
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    { date: '2024-08-01', amount: 50, category: 'Food', type: 'expense' },
-    { date: '2024-08-02', amount: 100, category: 'Rent', type: 'expense' },
-    { date: '2024-08-03', amount: 2000, category: 'Salary', type: 'income' },
-  ]);
+interface TransactionTableProps {
+    transactions: Transaction[];
+}
 
+const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => {
   // Sorting state
   const [sortColumn, setSortColumn] = useState<keyof Transaction | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
