@@ -66,10 +66,9 @@ const Home = () => {
         <ExpenseDisplay expenses={expenses} />
         <IncomeDisplay income={balance} title="Balance" />
       </div>
-      
-      <IncomeExpenseForm addTransaction={addTransaction} />
-      <TransactionTable transactions={transactions} />
 
+      <IncomeExpenseForm addTransaction={addTransaction} />
+      
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-2">Income vs Expenses</h2>
         <ResponsiveContainer width="100%" height={300}>
@@ -79,10 +78,13 @@ const Home = () => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="value" fill="#82ca9d" name="Amount" />
+            <Bar dataKey="value" fill="#82ca9d" name="Income" />
+            <Bar dataKey="value" fill="#FF0000" name="Expense" />
           </BarChart>
         </ResponsiveContainer>
       </div>
+
+      <TransactionTable transactions={transactions} />
 
       <ExpenseChart transactions={transactions} />
     </div>
